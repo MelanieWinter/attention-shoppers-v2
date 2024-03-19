@@ -11,6 +11,9 @@ const keys = {
     d: {
         pressed: false
     },
+    q: {
+        pressed: false
+    }
 }
 
 let lastKey
@@ -37,6 +40,9 @@ export function handlePlayerMovement() {
                 keys.d.pressed = true
                 lastKey = 'd'
                 break
+            case 'q':
+                keys.q.pressed = true
+                break
             default:
                 break
         }
@@ -56,6 +62,9 @@ export function handlePlayerMovement() {
                 break
             case 'd':
                 keys.d.pressed = false
+                break
+            case 'q':
+                keys.q.pressed = false
                 break
             default:
                 break
@@ -93,17 +102,23 @@ export function detectBoundaryCollision(boundary, player) {
     }
 }
 
-export function detectFoodItemCollision(foodItems, foodItem, idx, player) {
-    if (
-        player.position.x < foodItem.position.x + foodItem.width &&
-        player.position.x + player.width > foodItem.position.x &&
-        player.position.y < foodItem.position.y + foodItem.height &&
-        player.position.y + player.height > foodItem.position.y
-    ) {
-        console.log('food item collision')
-        foodItems.splice(idx, 1)
+// Pick up food item by colliding with it and pressing 'Q'
+export function handleGrabItem(foodItems, foodItem, i, player) {
+    if (keys.q.pressed === true) {
+        for (let i = foodItems.length - 1; i >= 0; i--) {
+            const foodItem = foodItems[i];
+            if (
+                player.position.x < foodItem.position.x + foodItem.width &&
+                player.position.x + player.width > foodItem.position.x &&
+                player.position.y < foodItem.position.y + foodItem.height &&
+                player.position.y + player.height > foodItem.position.y
+            ) {
+                foodItems.splice(i, 1);
+            }
+        }
     }
 }
+
 
 export function map() {
     const map = [

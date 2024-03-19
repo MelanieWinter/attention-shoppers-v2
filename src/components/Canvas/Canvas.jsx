@@ -3,7 +3,7 @@ import { useRef, useEffect } from "react"
 import Boundary from "../../../models/Boundary"
 import Player from "../../../models/Player"
 import FoodItem from "../../../models/FoodItem"
-import { map, generateMap, generatePlayer, handlePlayerMovement, updatePlayerVelocity, detectBoundaryCollision, detectFoodItemCollision } from '../../utilities/gameLogic'
+import { map, generateMap, generatePlayer, handlePlayerMovement, updatePlayerVelocity, detectBoundaryCollision, handleGrabItem } from '../../utilities/gameLogic'
 import './Canvas.css'
 
 export default function Canvas() {
@@ -27,10 +27,13 @@ export default function Canvas() {
             function loop() {
                 requestAnimationFrame(loop)
                 ctx.clearRect(0, 0, canvas.width, canvas.height)
-                foodItems.forEach((foodItem, idx) => {
+                for (let i = foodItems.length - 1; i >= 0; i--) {
+                    const foodItem = foodItems[i]
                     foodItem.draw()
-                    detectFoodItemCollision(foodItems, foodItem, idx, player)
-                })
+                    handleGrabItem(foodItems, foodItem, i, player)
+                }
+                    
+
                 boundaries.forEach(boundary => {
                     boundary.draw()
                     detectBoundaryCollision(boundary, player)
