@@ -46,7 +46,6 @@ export function handlePlayerMovement() {
             default:
                 break
         }
-        console.log(lastKey)
     }
 
     function handleKeyUp({ key }) {
@@ -103,7 +102,7 @@ export function detectBoundaryCollision(boundary, player) {
 }
 
 // Pick up food item by colliding with it and pressing 'Q'
-export function handleGrabItem(foodItems, foodItem, i, player) {
+export function handleGrabItem(foodItems, foodItem, i, player, score, setScore) {
     if (keys.q.pressed === true) {
         for (let i = foodItems.length - 1; i >= 0; i--) {
             const foodItem = foodItems[i];
@@ -113,12 +112,13 @@ export function handleGrabItem(foodItems, foodItem, i, player) {
                 player.position.y < foodItem.position.y + foodItem.height &&
                 player.position.y + player.height > foodItem.position.y
             ) {
-                foodItems.splice(i, 1);
+                foodItems.splice(i, 1)
+                // This is doubled for some reason
+                setScore(prevScore => prevScore + 10)
             }
         }
     }
 }
-
 
 export function map() {
     const map = [

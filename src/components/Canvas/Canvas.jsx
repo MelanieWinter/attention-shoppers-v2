@@ -6,7 +6,7 @@ import FoodItem from "../../../models/FoodItem"
 import { map, generateMap, generatePlayer, handlePlayerMovement, updatePlayerVelocity, detectBoundaryCollision, handleGrabItem } from '../../utilities/gameLogic'
 import './Canvas.css'
 
-export default function Canvas() {
+export default function Canvas({ score, setScore }) {
     const canvasRef = useRef()
 
     useEffect(() => {
@@ -30,9 +30,8 @@ export default function Canvas() {
                 for (let i = foodItems.length - 1; i >= 0; i--) {
                     const foodItem = foodItems[i]
                     foodItem.draw()
-                    handleGrabItem(foodItems, foodItem, i, player)
+                    handleGrabItem(foodItems, foodItem, i, player, score, setScore)
                 }
-                    
 
                 boundaries.forEach(boundary => {
                     boundary.draw()
