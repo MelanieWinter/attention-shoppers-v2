@@ -79,13 +79,13 @@ export function updatePlayerVelocity(player) {
     player.velocity.x = 0
     player.velocity.y = 0
     if (keys.w.pressed && lastKey == 'w') {
-        player.velocity.y -= 5
+        player.velocity.y -= 3
     } else if (keys.s.pressed && lastKey == 's') {
-        player.velocity.y += 5
+        player.velocity.y += 3
     } else if (keys.a.pressed && lastKey == 'a') {
-        player.velocity.x -= 5
+        player.velocity.x -= 3
     } else if (keys.d.pressed && lastKey == 'd') {
-        player.velocity.x += 5
+        player.velocity.x += 3
     }
 }
 
