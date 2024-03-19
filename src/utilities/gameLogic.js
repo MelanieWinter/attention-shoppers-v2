@@ -16,7 +16,6 @@ const keys = {
 let lastKey
 
 export function handlePlayerMovement() {
-
     document.addEventListener('keydown', handleKeyDown)
     document.addEventListener('keyup', handleKeyUp)
 
@@ -62,15 +61,13 @@ export function handlePlayerMovement() {
                 break
         }
     }
-
-    // Return a cleanup function to remove the event listener when not needed
     return function cleanup() {
         document.removeEventListener('keydown', handleKeyDown)
         document.addEventListener('keyup', handleKeyUp)
     }
 }
 
-export function handleKeyStateChange(player) {
+export function updatePlayerVelocity(player) {
     player.velocity.x = 0
     player.velocity.y = 0
     if (keys.w.pressed && lastKey == 'w') {
@@ -84,20 +81,35 @@ export function handleKeyStateChange(player) {
     }
 }
 
+export function detectCollision(boundary, player) {
+    if (
+        player.position.x + player.velocity.x < boundary.position.x + boundary.width &&
+        player.position.x + player.width + player.velocity.x > boundary.position.x &&
+        player.position.y + player.velocity.y < boundary.position.y + boundary.height &&
+        player.position.y + player.height + player.velocity.y > boundary.position.y
+    ) {
+        console.log("Collision detected")
+        player.velocity.x = 0
+        player.velocity.y = 0
+    }
+}
+
 export function map() {
     const map = [
-        ['-', '-', '-', '-', '-', '-'],
-        ['-', ' ', ' ', ' ', ' ', '-'],
-        ['-', ' ', '-', '-', ' ', '-'],
-        ['-', ' ', ' ', ' ', ' ', '-'],
-        ['-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-'],
+        ['-', ' ', ' ', ' ', ' ', ' ', '-'],
+        ['-', ' ', '-', ' ', '-', ' ', '-'],
+        ['-', ' ', '-', ' ', '-', ' ', '-'],
+        ['-', ' ', '-', ' ', '-', ' ', '-'],
+        ['-', ' ', '-', ' ', '-', ' ', '-'],
+        ['-', ' ', ' ', ' ', ' ', ' ', '-'],
+        ['-', '-', '-', '-', '-', '-', '-'],
     ]
     return map
 }
 
 export function generateBoundaries(mapData, Boundary, ctx) {
     const boundaries = []
-
     mapData.forEach((row, rowIndex) => {
         row.forEach((symbol, colIndex) => {
             switch(symbol) {
@@ -115,16 +127,16 @@ export function generateBoundaries(mapData, Boundary, ctx) {
                 default:
                     break
             }
-        });
-    });
+        })
+    })
     return boundaries;
 }
 
 export function generatePlayer(Boundary, Player, ctx) {
     const player = new Player({
         position: {
-            x: Boundary.width,
-            y: Boundary.height,
+            x: Boundary.width + Boundary.width / 2,
+            y: Boundary.height + Boundary.height / 2,
         },
         velocity: {
             x: 0,

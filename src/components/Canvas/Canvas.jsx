@@ -2,7 +2,7 @@
 import { useRef, useEffect } from "react"
 import Boundary from "../../../models/Boundary"
 import Player from "../../../models/Player"
-import { map, generateBoundaries, generatePlayer, handlePlayerMovement, handleKeyStateChange } from '../../utilities/gameLogic'
+import { map, generateBoundaries, generatePlayer, handlePlayerMovement, updatePlayerVelocity, detectCollision } from '../../utilities/gameLogic'
 import './Canvas.css'
 
 export default function Canvas() {
@@ -28,11 +28,12 @@ export default function Canvas() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height)
                 boundaries.forEach(boundary => {
                     boundary.draw()
+                    detectCollision(boundary, player)
                 })
 
                 player.update()
 
-                handleKeyStateChange(player)
+                updatePlayerVelocity(player)
             }
             
             loop()
