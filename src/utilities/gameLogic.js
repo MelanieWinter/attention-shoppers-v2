@@ -1,3 +1,82 @@
+const keys = {
+    w: {
+        pressed: false
+    },
+    s: {
+        pressed: false
+    },
+    a: {
+        pressed: false
+    },
+    d: {
+        pressed: false
+    },
+}
+
+export function handlePlayerMovement() {
+
+    document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('keyup', handleKeyUp)
+
+    function handleKeyDown({ key }) {
+        switch (key) {
+            case 'w':
+                keys.w.pressed = true
+                break
+            case 's':
+                keys.s.pressed = true
+                break
+            case 'a':
+                keys.a.pressed = true
+                break
+            case 'd':
+                keys.d.pressed = true
+                break
+            default:
+                break
+        }
+    }
+
+    function handleKeyUp({ key }) {
+        switch (key) {
+            case 'w':
+                keys.w.pressed = false
+                break
+            case 's':
+                keys.s.pressed = false
+                break
+            case 'a':
+                keys.a.pressed = false
+                break
+            case 'd':
+                keys.d.pressed = false
+                break
+            default:
+                break
+        }
+    }
+
+    // Return a cleanup function to remove the event listener when not needed
+    return function cleanup() {
+        document.removeEventListener('keydown', handleKeyDown)
+        document.addEventListener('keyup', handleKeyUp)
+    }
+}
+
+export function handleKeyStateChange(player) {
+    player.velocity.x = 0
+    player.velocity.y = 0
+    if (keys.w.pressed) {
+        player.velocity.y -= 5
+    } else if (keys.s.pressed) {
+        player.velocity.y += 5
+    } else if (keys.a.pressed) {
+        player.velocity.x -= 5
+    } else if (keys.d.pressed) {
+        player.velocity.x += 5
+    }
+}
+
 export function map() {
     const map = [
         ['-', '-', '-', '-', '-', '-'],
@@ -6,7 +85,6 @@ export function map() {
         ['-', ' ', ' ', ' ', ' ', '-'],
         ['-', '-', '-', '-', '-', '-'],
     ]
-    
     return map
 }
 
@@ -48,57 +126,5 @@ export function generatePlayer(Boundary, Player, ctx) {
         ctx: ctx
     })
     return player
-}
-
-export function handlePlayerMovement(player) {
-
-    document.addEventListener('keydown', handleKeyDown)
-    document.addEventListener('keyup', handleKeyUp)
-
-    function handleKeyDown(event) {
-        switch (event.key) {
-            case 'w':
-                player.velocity.y -= 5
-                break
-            case 's':
-                player.velocity.y += 5
-                break
-            case 'a':
-                player.velocity.x -= 5
-                break
-            case 'd':
-                player.velocity.x += 5
-                break
-            default:
-                break
-        }
-        console.log(player.velocity)
-    }
-
-    function handleKeyUp(event) {
-        switch (event.key) {
-            case 'w':
-                player.velocity.y = 0
-                break
-            case 's':
-                player.velocity.y = 0
-                break
-            case 'a':
-                player.velocity.x = 0
-                break
-            case 'd':
-                player.velocity.x = 0
-                break
-            default:
-                break
-        }
-        console.log(player.velocity)
-    }
-
-    // Return a cleanup function to remove the event listener when not needed
-    return function cleanup() {
-        document.removeEventListener('keydown', handleKeyDown)
-        document.addEventListener('keyup', handleKeyUp)
-    }
 }
 
