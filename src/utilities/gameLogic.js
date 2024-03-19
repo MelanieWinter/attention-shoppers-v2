@@ -88,7 +88,6 @@ export function detectCollision(boundary, player) {
         player.position.y + player.velocity.y < boundary.position.y + boundary.height &&
         player.position.y + player.height + player.velocity.y > boundary.position.y
     ) {
-        console.log("Collision detected")
         player.velocity.x = 0
         player.velocity.y = 0
     }
@@ -97,18 +96,20 @@ export function detectCollision(boundary, player) {
 export function map() {
     const map = [
         ['-', '-', '-', '-', '-', '-', '-'],
-        ['-', ' ', ' ', ' ', ' ', ' ', '-'],
+        ['-', ' ', '.', ' ', '.', ' ', '-'],
+        ['-', '.', '-', '.', '-', '.', '-'],
         ['-', ' ', '-', ' ', '-', ' ', '-'],
+        ['-', '.', '-', '.', '-', '.', '-'],
         ['-', ' ', '-', ' ', '-', ' ', '-'],
-        ['-', ' ', '-', ' ', '-', ' ', '-'],
-        ['-', ' ', '-', ' ', '-', ' ', '-'],
-        ['-', ' ', ' ', ' ', ' ', ' ', '-'],
+        ['-', '.', '-', '.', '-', '.', '-'],
+        ['-', ' ', '.', ' ', '.', ' ', '-'],
         ['-', '-', '-', '-', '-', '-', '-'],
     ]
     return map
 }
 
-export function generateBoundaries(mapData, Boundary, ctx) {
+export function generateMap(mapData, Boundary, FoodItem, ctx) {
+    const foodItems = []
     const boundaries = []
     mapData.forEach((row, rowIndex) => {
         row.forEach((symbol, colIndex) => {
@@ -124,13 +125,25 @@ export function generateBoundaries(mapData, Boundary, ctx) {
                         })
                     );
                     break
+                case '.':
+                    foodItems.push(
+                        new FoodItem({
+                            position: {
+                                x: colIndex * Boundary.width + Boundary.width / 2,
+                                y: rowIndex * Boundary.height + Boundary.height / 2,
+                            },
+                            ctx: ctx
+                        })
+                    );
+                    break
                 default:
                     break
             }
         })
     })
-    return boundaries;
+    return { boundaries, foodItems };
 }
+
 
 export function generatePlayer(Boundary, Player, ctx) {
     const player = new Player({
@@ -146,4 +159,3 @@ export function generatePlayer(Boundary, Player, ctx) {
     })
     return player
 }
-
