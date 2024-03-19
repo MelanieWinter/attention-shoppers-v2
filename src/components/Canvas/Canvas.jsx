@@ -2,7 +2,8 @@
 import { useRef, useEffect } from "react"
 import Boundary from "../../../models/Boundary"
 import Player from "../../../models/Player"
-import { map, generateBoundaries, generatePlayer, handlePlayerMovement, handleKeyStateChange } from '../../utilities/gameLogic'
+import FoodItem from "../../../models/FoodItem"
+import { map, generateMap, generatePlayer, handlePlayerMovement, updatePlayerVelocity, detectBoundaryCollision, handleGrabItem } from '../../utilities/gameLogic'
 import './Canvas.css'
 
 export default function Canvas() {
@@ -18,7 +19,7 @@ export default function Canvas() {
         if (!ctx) return
 
         const mapData = map()
-        const boundaries = generateBoundaries(mapData, Boundary, ctx)
+        const { boundaries, foodItems } = generateMap(mapData, Boundary, FoodItem, ctx)
         const player = generatePlayer(Boundary, Player, ctx)
         const cleanup = handlePlayerMovement()
 
@@ -26,20 +27,24 @@ export default function Canvas() {
             function loop() {
                 requestAnimationFrame(loop)
                 ctx.clearRect(0, 0, canvas.width, canvas.height)
+                for (let i = foodItems.length - 1; i >= 0; i--) {
+                    const foodItem = foodItems[i]
+                    foodItem.draw()
+                    handleGrabItem(foodItems, foodItem, i, player)
+                }
+                    
+
                 boundaries.forEach(boundary => {
                     boundary.draw()
+                    detectBoundaryCollision(boundary, player)
                 })
-
                 player.update()
-
-                handleKeyStateChange(player)
+                updatePlayerVelocity(player)
             }
-            
             loop()
         }
 
         gameLoop()
-
         return cleanup
     }, []);
 
