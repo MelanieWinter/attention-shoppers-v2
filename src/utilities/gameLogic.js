@@ -81,7 +81,7 @@ export function updatePlayerVelocity(player) {
     }
 }
 
-export function detectCollision(boundary, player) {
+export function detectBoundaryCollision(boundary, player) {
     if (
         player.position.x + player.velocity.x < boundary.position.x + boundary.width &&
         player.position.x + player.width + player.velocity.x > boundary.position.x &&
@@ -90,6 +90,18 @@ export function detectCollision(boundary, player) {
     ) {
         player.velocity.x = 0
         player.velocity.y = 0
+    }
+}
+
+export function detectFoodItemCollision(foodItems, foodItem, idx, player) {
+    if (
+        player.position.x < foodItem.position.x + foodItem.width &&
+        player.position.x + player.width > foodItem.position.x &&
+        player.position.y < foodItem.position.y + foodItem.height &&
+        player.position.y + player.height > foodItem.position.y
+    ) {
+        console.log('food item collision')
+        foodItems.splice(idx, 1)
     }
 }
 
