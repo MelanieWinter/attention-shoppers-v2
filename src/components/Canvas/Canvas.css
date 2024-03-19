@@ -1,0 +1,8 @@
+.Canvas {
+    width: 100%;
+    border: 1px solid lime;
+}
+
+.Canvas canvas {
+    width: 100%;
+}
