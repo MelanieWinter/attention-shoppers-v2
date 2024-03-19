@@ -1,11 +1,11 @@
 export default class Player {
-    static width = 15
-    static height = 15
+    static width = 20
+    static height = 20
     constructor({ position, velocity, ctx }) {
         this.ctx = ctx
         this.velocity = velocity
-        this.width = 15
-        this.height = 15
+        this.width = 20
+        this.height = 20
         this.position = {
             x: position.x - this.width / 2,
             y: position.y - this.height / 2,
