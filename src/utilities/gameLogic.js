@@ -91,39 +91,39 @@ export function updatePlayerVelocity(player, boundaries) {
                     staticRect: boundary
                 })
             ) {
-                console.log(player.velocity.y)
                 player.velocity.y = 0
-                console.log(player.velocity.y)
                 break
             } else {
-                console.log(player.velocity.y)
                 player.velocity.y = -5
-                console.log(player.velocity.y)
             }
         }
     } else if (keys.s.pressed && lastKey == 's') {
-        player.velocity.y = 5
+        for (let i = 0; i < boundaries.length; i++) {
+            const boundary = boundaries[i]
+            if (
+                rectToRectCollision({
+                    movingRect: {
+                        ...player, 
+                        velocity: {
+                            x: 0,
+                            y: 5
+                        }
+                    },
+                    staticRect: boundary
+                })
+            ) {
+                player.velocity.y = 0
+                break
+            } else {
+                player.velocity.y = 5
+            }
+        }
     } else if (keys.a.pressed && lastKey == 'a') {
         player.velocity.x = -5
     } else if (keys.d.pressed && lastKey == 'd') {
         player.velocity.x = 5
     }
 }
-
-// export function updatePlayerVelocity(player) {
-//     player.velocity.x = 0
-//     player.velocity.y = 0
-    
-//     if (keys.w.pressed && lastKey == 'w') {
-//         player.velocity.y -= 3
-//     } else if (keys.s.pressed && lastKey == 's') {
-//         player.velocity.y += 3
-//     } else if (keys.a.pressed && lastKey == 'a') {
-//         player.velocity.x -= 3
-//     } else if (keys.d.pressed && lastKey == 'd') {
-//         player.velocity.x += 3
-//     }
-// }
 
 export function predictPlayerMovement(boundary, player) {
 
@@ -177,6 +177,12 @@ export function map() {
         ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
         ['-', ' ', '.', ' ', '.', ' ', '.', ' ', '-'],
         ['-', '.', '-', '.', '-', '.', '-', '.', '-'],
+        ['-', ' ', '-', ' ', '-', ' ', '-', ' ', '-'],
+        ['-', '.', '-', '.', '-', '.', '-', '.', '-'],
+        ['-', ' ', '-', ' ', '-', ' ', '-', ' ', '-'],
+        ['-', '.', ' ', '.', ' ', '.', ' ', '.', '-'],
+        ['-', ' ', '-', '-', '-', '-', '-', ' ', '-'],
+        ['-', '.', ' ', '.', ' ', '.', ' ', '.', '-'],
         ['-', ' ', '-', ' ', '-', ' ', '-', ' ', '-'],
         ['-', '.', '-', '.', '-', '.', '-', '.', '-'],
         ['-', ' ', '-', ' ', '-', ' ', '-', ' ', '-'],
