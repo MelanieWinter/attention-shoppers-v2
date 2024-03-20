@@ -81,19 +81,19 @@ export function handlePlayerMovement() {
 //         's': { x: 0, y: 5 },
 //         'a': { x: -5, y: 0 },
 //         'd': { x: 5, y: 0 }
-//     };
+//     }
 
-//     const key = Object.keys(keys).find(k => keys[k].pressed && lastKey === k);
+//     const key = Object.keys(keys).find(k => keys[k].pressed && lastKey === k)
 
 //     if (key) {
 //         const velocity = direction[key];
 //         for (let i = 0; i < boundaries.length; i++) {
-//             const boundary = boundaries[i];
+//             const boundary = boundaries[i]
 //             if (rectToRectCollision({ movingRect: { ...player, velocity }, staticRect: boundary })) {
-//                 player.velocity = { x: 0, y: 0 };
-//                 break;
-//             } else {
 //                 player.velocity = velocity;
+//                 break
+//             } else {
+//                 player.velocity = { x: 0, y: 0 }
 //             }
 //         }
 //     }
