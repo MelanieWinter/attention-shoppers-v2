@@ -1,12 +1,12 @@
-import { useNavigate } from 'react-router-dom';
-import './Splash.css';
+import { useNavigate } from 'react-router-dom'
+import './Splash.css'
 
 export default function Splash() {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate()
     
     const handleButtonClick = () => {
-        navigate('/lobby');
-    };
+        navigate('/lobby')
+    }
 
     return (
         <section className='Splash'>

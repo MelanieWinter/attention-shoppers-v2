@@ -2,11 +2,11 @@ import { Link, useNavigate } from "react-router-dom"
 import './Lobby.css'
 
 export default function Lobby() {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate()
 
     const handleButtonClick = () => {
-        navigate('/game');
-    };
+        navigate('/game')
+    }
 
     return (
         <section className="Lobby">
