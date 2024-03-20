@@ -1,12 +1,12 @@
 export default class Boundary {
-    static width = 40;
-    static height = 40;
+    static width = 40
+    static height = 40
 
     constructor({ position, ctx }) {
-        this.ctx = ctx;
-        this.position = position;
-        this.width = 40;
-        this.height = 40;
+        this.ctx = ctx
+        this.position = position
+        this.width = 40
+        this.height = 40
     }
 
     draw() {
@@ -16,6 +16,6 @@ export default class Boundary {
             this.position.y,
             this.width,
             this.height,
-        );
+        )
     }
 }

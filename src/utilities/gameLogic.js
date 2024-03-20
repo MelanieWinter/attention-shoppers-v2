@@ -89,12 +89,28 @@ export function updatePlayerVelocity(player) {
     }
 }
 
-export function detectBoundaryCollision(boundary, player) {
+export function predictPlayerMovement(boundary, player) {
+
+}
+
+export function rectToRectCollision({
+    movingRect, 
+    staticRect
+}) {
+    return (
+        movingRect.position.x + movingRect.velocity.x < staticRect.position.x + staticRect.width &&
+        movingRect.position.x + movingRect.width + movingRect.velocity.x > staticRect.position.x &&
+        movingRect.position.y + movingRect.velocity.y < staticRect.position.y + staticRect.height &&
+        movingRect.position.y + movingRect.height + movingRect.velocity.y > staticRect.position.y
+    )
+}
+
+export function detectPlayerBoundaryCollision(boundary, player) {
     if (
-        player.position.x + player.velocity.x < boundary.position.x + boundary.width &&
-        player.position.x + player.width + player.velocity.x > boundary.position.x &&
-        player.position.y + player.velocity.y < boundary.position.y + boundary.height &&
-        player.position.y + player.height + player.velocity.y > boundary.position.y
+        rectToRectCollision({
+            movingRect: player,
+            staticRect: boundary
+        })
     ) {
         player.velocity.x = 0
         player.velocity.y = 0
@@ -122,15 +138,15 @@ export function handleGrabItem(foodItems, foodItem, i, player, score, setScore) 
 
 export function map() {
     const map = [
-        ['-', '-', '-', '-', '-', '-', '-'],
-        ['-', ' ', '.', ' ', '.', ' ', '-'],
-        ['-', '.', '-', '.', '-', '.', '-'],
-        ['-', ' ', '-', ' ', '-', ' ', '-'],
-        ['-', '.', '-', '.', '-', '.', '-'],
-        ['-', ' ', '-', ' ', '-', ' ', '-'],
-        ['-', '.', '-', '.', '-', '.', '-'],
-        ['-', ' ', '.', ' ', '.', ' ', '-'],
-        ['-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+        ['-', ' ', '.', ' ', '.', ' ', '.', ' ', '-'],
+        ['-', '.', '-', '.', '-', '.', '-', '.', '-'],
+        ['-', ' ', '-', ' ', '-', ' ', '-', ' ', '-'],
+        ['-', '.', '-', '.', '-', '.', '-', '.', '-'],
+        ['-', ' ', '-', ' ', '-', ' ', '-', ' ', '-'],
+        ['-', '.', '-', '.', '-', '.', '-', '.', '-'],
+        ['-', ' ', '.', ' ', '.', ' ', '.', ' ', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
     ]
     return map
 }
@@ -171,7 +187,6 @@ export function generateMap(mapData, Boundary, FoodItem, ctx) {
     return { boundaries, foodItems };
 }
 
-
 export function generatePlayer(Boundary, Player, ctx) {
     const player = new Player({
         position: {
@@ -185,4 +200,25 @@ export function generatePlayer(Boundary, Player, ctx) {
         ctx: ctx
     })
     return player
+}
+
+export function generateEmployees(Boundary, Employee, ctx) {
+    const employees = [
+        new Employee ({
+            position: {
+                x: Boundary.width * 6 + Boundary.width / 2,
+                y: Boundary.height + Boundary.height / 2,
+            },
+            velocity: {
+                x: 0,
+                y: 0
+            },
+            ctx: ctx
+        })
+    ]
+    return employees
+}
+
+export function detectEmployeeBoundaryCollision(boundary, employee) {
+
 }

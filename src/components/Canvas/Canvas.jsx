@@ -3,7 +3,8 @@ import { useRef, useEffect } from "react"
 import Boundary from "../../../models/Boundary"
 import Player from "../../../models/Player"
 import FoodItem from "../../../models/FoodItem"
-import { map, generateMap, generatePlayer, handlePlayerMovement, updatePlayerVelocity, detectBoundaryCollision, handleGrabItem } from '../../utilities/gameLogic'
+import Employee from "../../../models/Employee"
+import { map, generateMap, generatePlayer, handlePlayerMovement, updatePlayerVelocity, detectPlayerBoundaryCollision, handleGrabItem, generateEmployees, detectEmployeeBoundaryCollision, predictPlayerMovement } from '../../utilities/gameLogic'
 import './Canvas.css'
 
 export default function Canvas({ score, setScore }) {
@@ -20,6 +21,7 @@ export default function Canvas({ score, setScore }) {
 
         const mapData = map()
         const { boundaries, foodItems } = generateMap(mapData, Boundary, FoodItem, ctx)
+        const employees = generateEmployees(Boundary, Employee, ctx)
         const player = generatePlayer(Boundary, Player, ctx)
         const cleanup = handlePlayerMovement()
 
@@ -35,21 +37,28 @@ export default function Canvas({ score, setScore }) {
 
                 boundaries.forEach(boundary => {
                     boundary.draw()
-                    detectBoundaryCollision(boundary, player)
+                    detectPlayerBoundaryCollision(boundary, player)
+                    // predictPlayerMovement(boundary, player)
                 })
                 player.update()
                 updatePlayerVelocity(player)
+
+                employees.forEach(employee => {
+                    employee.update()
+                    boundaries.forEach(boundary => {
+                        detectEmployeeBoundaryCollision(boundary, employee)
+                    })
+                })
             }
             loop()
         }
 
         gameLoop()
         return cleanup
-    }, []);
-
+    }, [])
     return (
         <div className="Canvas">
             <canvas ref={canvasRef}></canvas>
         </div>
-    );
+    )
 }
