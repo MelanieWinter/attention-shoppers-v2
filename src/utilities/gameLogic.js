@@ -75,6 +75,31 @@ export function handlePlayerMovement() {
     }
 }
 
+// export function updatePlayerVelocity(player, boundaries) {
+//     const direction = {
+//         'w': { x: 0, y: -5 },
+//         's': { x: 0, y: 5 },
+//         'a': { x: -5, y: 0 },
+//         'd': { x: 5, y: 0 }
+//     };
+
+//     const key = Object.keys(keys).find(k => keys[k].pressed && lastKey === k);
+
+//     if (key) {
+//         const velocity = direction[key];
+//         for (let i = 0; i < boundaries.length; i++) {
+//             const boundary = boundaries[i];
+//             if (rectToRectCollision({ movingRect: { ...player, velocity }, staticRect: boundary })) {
+//                 player.velocity = { x: 0, y: 0 };
+//                 break;
+//             } else {
+//                 player.velocity = velocity;
+//             }
+//         }
+//     }
+// }
+
+
 export function updatePlayerVelocity(player, boundaries) {
     if (keys.w.pressed && lastKey == 'w') {
         for (let i = 0; i < boundaries.length; i++) {
@@ -119,14 +144,48 @@ export function updatePlayerVelocity(player, boundaries) {
             }
         }
     } else if (keys.a.pressed && lastKey == 'a') {
-        player.velocity.x = -5
+        for (let i = 0; i < boundaries.length; i++) {
+            const boundary = boundaries[i]
+            if (
+                rectToRectCollision({
+                    movingRect: {
+                        ...player, 
+                        velocity: {
+                            x: -5,
+                            y: 0
+                        }
+                    },
+                    staticRect: boundary
+                })
+            ) {
+                player.velocity.x = 0
+                break
+            } else {
+                player.velocity.x = -5
+            }
+        }
     } else if (keys.d.pressed && lastKey == 'd') {
-        player.velocity.x = 5
+        for (let i = 0; i < boundaries.length; i++) {
+            const boundary = boundaries[i]
+            if (
+                rectToRectCollision({
+                    movingRect: {
+                        ...player, 
+                        velocity: {
+                            x: 5,
+                            y: 0
+                        }
+                    },
+                    staticRect: boundary
+                })
+            ) {
+                player.velocity.x = 0
+                break
+            } else {
+                player.velocity.x = 5
+            }
+        }
     }
-}
-
-export function predictPlayerMovement(boundary, player) {
-
 }
 
 export function rectToRectCollision({
