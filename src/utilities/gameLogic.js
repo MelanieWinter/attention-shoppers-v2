@@ -75,19 +75,55 @@ export function handlePlayerMovement() {
     }
 }
 
-export function updatePlayerVelocity(player) {
-    player.velocity.x = 0
-    player.velocity.y = 0
+export function updatePlayerVelocity(player, boundaries) {
     if (keys.w.pressed && lastKey == 'w') {
-        player.velocity.y -= 3
+        for (let i = 0; i < boundaries.length; i++) {
+            const boundary = boundaries[i]
+            if (
+                rectToRectCollision({
+                    movingRect: {
+                        ...player, 
+                        velocity: {
+                            x: 0,
+                            y: -5
+                        }
+                    },
+                    staticRect: boundary
+                })
+            ) {
+                console.log(player.velocity.y)
+                player.velocity.y = 0
+                console.log(player.velocity.y)
+                break
+            } else {
+                console.log(player.velocity.y)
+                player.velocity.y = -5
+                console.log(player.velocity.y)
+            }
+        }
     } else if (keys.s.pressed && lastKey == 's') {
-        player.velocity.y += 3
+        player.velocity.y = 5
     } else if (keys.a.pressed && lastKey == 'a') {
-        player.velocity.x -= 3
+        player.velocity.x = -5
     } else if (keys.d.pressed && lastKey == 'd') {
-        player.velocity.x += 3
+        player.velocity.x = 5
     }
 }
+
+// export function updatePlayerVelocity(player) {
+//     player.velocity.x = 0
+//     player.velocity.y = 0
+    
+//     if (keys.w.pressed && lastKey == 'w') {
+//         player.velocity.y -= 3
+//     } else if (keys.s.pressed && lastKey == 's') {
+//         player.velocity.y += 3
+//     } else if (keys.a.pressed && lastKey == 'a') {
+//         player.velocity.x -= 3
+//     } else if (keys.d.pressed && lastKey == 'd') {
+//         player.velocity.x += 3
+//     }
+// }
 
 export function predictPlayerMovement(boundary, player) {
 
@@ -217,8 +253,4 @@ export function generateEmployees(Boundary, Employee, ctx) {
         })
     ]
     return employees
-}
-
-export function detectEmployeeBoundaryCollision(boundary, employee) {
-
 }

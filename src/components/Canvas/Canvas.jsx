@@ -4,7 +4,7 @@ import Boundary from "../../../models/Boundary"
 import Player from "../../../models/Player"
 import FoodItem from "../../../models/FoodItem"
 import Employee from "../../../models/Employee"
-import { map, generateMap, generatePlayer, handlePlayerMovement, updatePlayerVelocity, detectPlayerBoundaryCollision, handleGrabItem, generateEmployees, detectEmployeeBoundaryCollision, predictPlayerMovement } from '../../utilities/gameLogic'
+import { map, generateMap, generatePlayer, handlePlayerMovement, updatePlayerVelocity, detectPlayerBoundaryCollision, handleGrabItem, generateEmployees } from '../../utilities/gameLogic'
 import './Canvas.css'
 
 export default function Canvas({ score, setScore }) {
@@ -41,12 +41,12 @@ export default function Canvas({ score, setScore }) {
                     // predictPlayerMovement(boundary, player)
                 })
                 player.update()
-                updatePlayerVelocity(player)
+                updatePlayerVelocity(player, boundaries)
 
                 employees.forEach(employee => {
                     employee.update()
                     boundaries.forEach(boundary => {
-                        detectEmployeeBoundaryCollision(boundary, employee)
+
                     })
                 })
             }
