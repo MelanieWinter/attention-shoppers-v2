@@ -38,7 +38,6 @@ export default function Canvas({ score, setScore }) {
                 boundaries.forEach(boundary => {
                     boundary.draw()
                     detectPlayerBoundaryCollision(boundary, player)
-                    // predictPlayerMovement(boundary, player)
                 })
                 player.update()
                 updatePlayerVelocity(player, boundaries)
