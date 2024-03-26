@@ -99,7 +99,6 @@ export function handlePlayerMovement() {
 //     }
 // }
 
-
 export function updatePlayerVelocity(player, boundaries) {
     if (keys.w.pressed && lastKey == 'w') {
         for (let i = 0; i < boundaries.length; i++) {
@@ -212,6 +211,72 @@ export function detectPlayerBoundaryCollision(boundary, player) {
     }
 }
 
+export function detectEmployeeBoundaryCollision(boundary, employee, collisions) {
+    if (
+        !collisions.includes('right') &&
+        rectToRectCollision({
+            movingRect: {
+                ...employee, 
+                velocity: {
+                    x: 5,
+                    y: 0
+                }
+            },
+            staticRect: boundary
+        })
+    ) {
+        collisions.push('right')
+    }
+
+    if (
+        !collisions.includes('left') &&
+        rectToRectCollision({
+            movingRect: {
+                ...employee, 
+                velocity: {
+                    x: -5,
+                    y: 0
+                }
+            },
+            staticRect: boundary
+        })
+    ) {
+        collisions.push('left')
+    }
+
+    if (
+        !collisions.includes('up') &&
+        rectToRectCollision({
+            movingRect: {
+                ...employee, 
+                velocity: {
+                    x: 0,
+                    y: -5
+                }
+            },
+            staticRect: boundary
+        })
+    ) {
+        collisions.push('up')
+    }
+
+    if (
+        !collisions.includes('down') &&
+        rectToRectCollision({
+            movingRect: {
+                ...employee, 
+                velocity: {
+                    x: 0,
+                    y: 5
+                }
+            },
+            staticRect: boundary
+        })
+    ) {
+        collisions.push('down')
+    }
+}
+
 // Pick up food item by colliding with it and pressing 'Q'
 export function handleGrabItem(foodItems, foodItem, i, player, score, setScore) {
     if (keys.q.pressed === true) {
@@ -311,7 +376,7 @@ export function generateEmployees(Boundary, Employee, ctx) {
                 y: Boundary.height + Boundary.height / 2,
             },
             velocity: {
-                x: 0,
+                x: 5,
                 y: 0
             },
             ctx: ctx
@@ -319,3 +384,4 @@ export function generateEmployees(Boundary, Employee, ctx) {
     ]
     return employees
 }
+

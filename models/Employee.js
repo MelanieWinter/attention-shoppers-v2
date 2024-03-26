@@ -1,16 +1,17 @@
 export default class Employee {
-    static width = 20
-    static height = 20
+    static width = 25
+    static height = 25
     constructor({ position, velocity, color = 'black', ctx }) {
         this.ctx = ctx
         this.velocity = velocity
-        this.width = 20
-        this.height = 20
+        this.width = 25
+        this.height = 25
         this.position = {
             x: position.x - this.width / 2,
             y: position.y - this.height / 2,
         }
         this.color = color
+        this.prevCollisions = []
     }
 
     draw() {
